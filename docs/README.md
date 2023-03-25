@@ -3,13 +3,19 @@ home: true
 actionText: Розпочати →
 actionLink: /intro/
 
-footer: "ECL 2.0 Licensed | Copyright © [YYYY] [Your Name]"
+footer: "ECL 2.0 Licensed | Copyright © [2023] [Чигринець Євгеній]"
 ---
 
 
 **Виконав(-ла):** 
 
-*студент(-ка) 2-го курсу, групи (шифр групи)*<span padding-right:5em></span> **[ім’я ПРІЗВИЩЕ] [Посилання email, tg, fb]**
+*студент(-ка) 2-го курсу, групи ІО-15*<span padding-right:5em></span> **<a href='https://t.me/EvgeniyChyg'>Чигринець Євгеній</a>**<br>
+*студент(-ка) 2-го курсу, групи ІО-15*<span padding-right:5em></span> **<a href='https://t.me/grugoriev'>Григор'єв Костянтин</a>**<br>
+*студент(-ка) 2-го курсу, групи ІО-15*<span padding-right:5em></span> **<a href='https://t.me/corrrvo'>Жадько Назар</a>**<br>
+*студент(-ка) 2-го курсу, групи ІО-15*<span padding-right:5em></span> **<a href='https://t.me/opyatvstavat'>Поляков Валентин</a>**<br>
+*студент(-ка) 2-го курсу, групи ІО-15*<span padding-right:5em></span> **<a href='https://t.me/SiraAnastasia'>Сіра Анастасія</a>**<br>
+*студент(-ка) 2-го курсу, групи ІО-15*<span padding-right:5em></span> **<a href='https://t.me/kioshi_warrior'>Сидорченко Ірина</a>**<br>
+*студент(-ка) 2-го курсу, групи ІО-15*<span padding-right:5em></span> **<a href='https://t.me/Dariao7'>Нохріна Дар'я</a>**<br>
 
 
 **Керівник**
