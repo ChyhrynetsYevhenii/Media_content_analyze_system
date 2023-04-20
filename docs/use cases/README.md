@@ -1,149 +1,330 @@
 # Модель прецедентів
 
-В цьому файлі необхідно перелічити всі документи, розроблені в проекті та дати посилання на них.
+# Загальна діаграма
 
-*Модель прецедентів повинна містити загальні оглядові діаграми та специфікації прецедентів.*
+Наведені основні можливості для кожної с груп користувачів.
 
+@startuml  
 
+    actor "Користувач" as User  
+    actor "Адміністратор" as Admin  
+    
+    User  --|> Admin 
 
-Вбудовування зображень діаграм здійснюється з використанням сервісу [plantuml.com](https://plantuml.com/). 
+    usecase "Реєстрація" as Registration  
+    usecase "Авторизація" as Login  
+    usecase "Пошук" as Search  
+    usecase "Редагування профілю" as Edit  
+    usecase "Управління джерелами" as Sources  
+    usecase "Допомога" as Help  
 
-В markdown-файлі використовується опис діаграми
+    usecase "Додавання джерела інформації" as AddSource  
+    usecase "Права користувачів" as Rights  
+    usecase "Отримання статистики" as Statistic  
+    
+    User -u-> Registration
+    User -u-> Login
+    User -l-> Search  
+    User -d-> Edit  
+    User --> Help  
+    User -r-> Sources  
 
-```md
+    Admin -d-> AddSource  
+    Admin -d-> Rights  
+    Admin -l-> Statistic  
+@enduml
 
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;"
->
+Інші можливості користувача
 
 @startuml
 
-    right header
-        <font size=24 color=black>Package: <b>UCD_3.0
-    end header
+    actor "Користувач" as User #black
 
-    title
-        <font size=18 color=black>UC_8. Редагувати конфігурацію порталу
-        <font size=16 color=black>Діаграма прецедентів
-    end title
+    usecase "Допомога" as Help
+    usecase "До системи" as SystemHelp
+    usecase "До адміністратора" as AdminHelp
 
+    usecase "Управління джерелами" as Sources
+    usecase "Додати" as Add
+    usecase "Видалити доданий текст" as Remove
+    usecase "Прийняти зміни" as Accept
+    usecase "Скасувати зміни" as Cancel 
 
-    actor "Користувач" as User #eeeeaa
-    
-    package UCD_1{
-        usecase "<b>UC_1</b>\nПереглянути список \nзвітів" as UC_1 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1</b>\nЗастосувати фільтр" as UC_1.1
-    usecase "<b>UC_1.2</b>\nПереглянути метадані \nзвіту" as UC_1.2  
-    usecase "<b>UC_1.2.1</b>\nДати оцінку звіту" as UC_1.2.1  
-    usecase "<b>UC_1.2.2</b>\nПереглянути інформацію \nпро авторів звіту" as UC_1.2.2
-    
-    package UCD_1 {
-        usecase "<b>UC_4</b>\nВикликати звіт" as UC_4 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1.1</b>\n Використати \nпошукові теги" as UC_1.1.1  
-    usecase "<b>UC_1.1.2</b>\n Використати \nрядок пошуку" as UC_1.1.2
-    usecase "<b>UC_1.1.3</b>\n Використати \nавторів" as UC_1.1.3  
-    
-    
-    
-    User -> UC_1
-    UC_1.1 .u.> UC_1 :extends
-    UC_1.2 .u.> UC_1 :extends
-    UC_4 .d.> UC_1.2 :extends
-    UC_1.2 .> UC_1.2 :extends
-    UC_1.2.1 .u.> UC_1.2 :extends
-    UC_1.2.2 .u.> UC_1.2 :extends
-    UC_1 ..> UC_1.2.2 :extends
-    
-    
-    UC_1.1.1 -u-|> UC_1.1
-    UC_1.1.2 -u-|> UC_1.1
-    UC_1.1.3 -u-|> UC_1.1
-    
-    right footer
-        Аналітичний портал. Модель прецедентів.
-        НТУУ КПІ ім.І.Сікорського
-        Киів-2020
-    end footer
+    AdminHelp .u.> Help
+    SystemHelp .d.> Help
 
+    Add .l.> Sources
+    Remove .u.> Sources
+    Accept .d.> Sources
+    Cancel .d.> Sources  
+
+    User -l-> Help
+    User -r-> Sources
 @enduml
 
-**Діаграма прецедентів**
+# Реєстрація
+ID: USER.REG
 
-</center>
-```
+НАЗВА: Реєстрація нового облікового запису
 
-яка буде відображена наступним чином
+УЧАСНИКИ: Користувач, Система
 
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;"
->
+ПЕРЕДУМОВИ: Користувач не зареєстрований у системі
+
+РЕЗУЛЬТАТ: Створено новий обліковий запис та надано доступ до нього користувачу
+
+ВИКЛЮЧНІ СИТУАЦІЇ:
+
+    Обліковий запис з такими даними реєстрації вже існує.
 
 @startuml
 
-    right header
-        <font size=24 color=black>Package: <b>UCD_3.0
-    end header
+    |%lightblue|Користувач| 
+        start
+        #TECHNOLOGY;line:black;text:black :Користувач натискає кнопку \nдля реєстрації;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Система отримує запит \nна реєстрацію;
+        %darken("aliceblue", 6);line:black;text:black :Система надсилає форму \nреєстрації;
+    |%lightblue("TECHNOLOGY", 7)|Користувач|
+        #TECHNOLOGY;line:black;text:black :Користувач вводить логін, \nелектронну пошту та пароль;
+        #TECHNOLOGY;line:black;text:black :Користувач натискає кнопку \nвідправки даних;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Система отримує дані;
+        %darken("aliceblue", 6);line:black;text:black :Зареєстровано обліковий \nзапис;
+        note right #ffaaaa
+            <b> user.reg_err1
+        end note
+        %darken("aliceblue", 6);line:black;text:black :Система оповіщує \nпро успішне створення \nоблікового запису;
+    |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        stop
+@enduml
 
-    title
-        <font size=18 color=black>UC_8. Редагувати конфігурацію порталу
-        <font size=16 color=black>Діаграма прецедентів
-    end title
+# Авторизація
+ID: USER.LOGIN
 
+НАЗВА: Авторизація користувача в обліковий запис
 
-    actor "Користувач" as User #eeeeaa
+УЧАСНИКИ: Користувач, Система
+
+ПЕРЕДУМОВИ: Користувач має бути зареєстрований у системі
+
+РЕЗУЛЬТАТ: Отримання доступу до свого облікового запису
+
+ВИКЛЮЧНІ СИТУАЦІЇ:
+
+    Користувач не зареєстрований на сайті.
     
-    package UCD_1{
-        usecase "<b>UC_1</b>\nПереглянути список \nзвітів" as UC_1 #aaeeaa
-    }
+@startuml
+
+    |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        start
+        #TECHNOLOGY;line:black;text:black :Користувач натискає кнопку \nвходу в обліковий запис;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Система отримує запит \nна авторизацію;
+        %darken("aliceblue", 6);line:black;text:black :Система надсилає форму \nдля авторизації;
+    |%lightblue("TECHNOLOGY", 7)|Користувач|
+        #TECHNOLOGY;line:black;text:black :Користувач вводить дані \nдля входу;
+        #TECHNOLOGY;line:black;text:black :Користувач відправляє дані;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Система отримує дані користувача;
+        %darken("aliceblue", 6);line:black;text:black :Система валідує дані користувача;
+        note right #ffaaaa
+            <b> user.login_err1
+        end note
+        %darken("aliceblue", 6);line:black;text:black :Система надає користувачу \nдоступ до його облікового \nзапису;
+    |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        #TECHNOLOGY;line:black;text:black :Користувач отримує доступ \nдо облікового запису;
+        stop
+@enduml
+
+# Допомога користувачу
+
+ID: USER.HELP
+
+НАЗВА: Допомога користувачу
+
+УЧАСНИКИ: Користувач, Система
+
+ПЕРЕДУМОВИ: Користувач виконав авторизацію в системі та потребує допомоги
+
+РЕЗУЛЬТАТ: Користувач отримує інформацію про роботу з системою
+
+ВИКЛЮЧНІ СИТУАЦІЇ:
+
+    Система не змогла ідентифікувати запит або не знає вирішення цієї проблеми користувача.
     
-    usecase "<b>UC_1.1</b>\nЗастосувати фільтр" as UC_1.1
-    usecase "<b>UC_1.2</b>\nПереглянути метадані \nзвіту" as UC_1.2  
-    usecase "<b>UC_1.2.1</b>\nДати оцінку звіту" as UC_1.2.1  
-    usecase "<b>UC_1.2.2</b>\nПереглянути інформацію \nпро авторів звіту" as UC_1.2.2
+@startuml
+
+    |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        start
+        #TECHNOLOGY;line:black;text:black :Користувач натискає кнопку "Help";
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Отримує запит на допомогу;
+        %darken("aliceblue", 6);line:black;text:black :Система надає користувачу \nформу для заповнення;
+    |%lightblue("TECHNOLOGY", 7)|Користувач|
+        #TECHNOLOGY;line:black;text:black :Користувач отримує доступ \nдля заповнення форми;
+        #TECHNOLOGY;line:black;text:black :Користувач вписує своє питання;
+        #TECHNOLOGY;line:black;text:black :Користувач надсилає заповнену \nформу системі;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Система аналізує проблему \nза ключовими словами;
+        note right #ffaaaa
+            <b> user.help_err1
+        end note
+        %darken("aliceblue", 6);line:black;text:black :Система надсилає необхідну \nдовідку;
+    |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        #TECHNOLOGY;line:black;text:black :Користувач отримує довідку \nта ознайомлюється з нею;
+        stop
+@enduml
+
+# Збереження тексту
+
+ID: USER.SAVE_TEXT
+
+НАЗВА: Збереження тексту до бази даних
+
+УЧАСНИКИ: Користувач, Система
+
+ПЕРЕДУМОВИ: Користувач виконав авторизацію в системі
+
+РЕЗУЛЬТАТ: Користувач зберігає текст до бази даних системи
+
+ВИКЛЮЧНІ СИТУАЦІЇ:
+
+    Користувач не є зареєстрованим або не ввів ніякого тексту.
     
-    package UCD_1 {
-        usecase "<b>UC_4</b>\nВикликати звіт" as UC_4 #aaeeaa
-    }
+@startuml
+
+    |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        start
+        #TECHNOLOGY;line:black;text:black :Натискає на кнопку "Save";
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Отримує запит на збереження \nтексту;
+        %darken("aliceblue", 6);line:black;text:black :Система відправляє форму заповнення;
+    |%lightblue("TECHNOLOGY", 7)|Користувач|
+        #TECHNOLOGY;line:black;text:black :Користувач отримує доступ \nдля заповнення форми;
+        #TECHNOLOGY;line:black;text:black :Користувач записує свій редагування у форму;
+        #TECHNOLOGY;line:black;text:black :Користувач надсилає заповнену \nформу системі;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Система аналізує редагує \nтекст;
+        note right #ffaaaa
+            <b> user.help_err1
+        end note
+        %darken("aliceblue", 6);line:black;text:black :Система зберігає текст до своєї бази \nданих;
+    |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        #TECHNOLOGY;line:black;text:black :Користувач отримує відредагований текст;
+        stop
+@enduml
+
+# Адміністратор
+
+# Додавання джерела інформації
+
+ID: ADMIN.NSRC
+
+НАЗВА: Додавання джерела інформації
+
+УЧАСНИКИ: Адміністратор, Система
+
+ПЕРЕДУМОВИ: Адміністратор має право на додання джерел
+
+РЕЗУЛЬТАТ: Додавання джерел інформації у системі
+
+ВИКЛЮЧНІ СИТУАЦІЇ:
+
+    Нові джерела не пройшли перевірку.
     
-    usecase "<b>UC_1.1.1</b>\n Використати \nпошукові теги" as UC_1.1.1  
-    usecase "<b>UC_1.1.2</b>\n Використати \nрядок пошуку" as UC_1.1.2
-    usecase "<b>UC_1.1.3</b>\n Використати \nавторів" as UC_1.1.3  
-    
-    
-    
-    User -> UC_1
-    UC_1.1 .u.> UC_1 :extends
-    UC_1.2 .u.> UC_1 :extends
-    UC_4 .d.> UC_1.2 :extends
-    UC_1.2 .> UC_1.2 :extends
-    UC_1.2.1 .u.> UC_1.2 :extends
-    UC_1.2.2 .u.> UC_1.2 :extends
-    UC_1 ..> UC_1.2.2 :extends
-    
-    
-    UC_1.1.1 -u-|> UC_1.1
-    UC_1.1.2 -u-|> UC_1.1
-    UC_1.1.3 -u-|> UC_1.1
-    
-    right footer
-        Аналітичний портал. Модель прецедентів.
-        НТУУ КПІ ім.І.Сікорського
-        Киів-2020
-    end footer
+@startuml
+
+    |%lightblue("TECHNOLOGY", 11)|Адміністратор|
+        start
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Адміністратор натискає кнопку \nдодання нового джерела інформації;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Система надає форму для \nдодання нового джерела;
+    |%lightblue("TECHNOLOGY", 11)|Адміністратор|
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Адміністратор надає посилання \nна джерело;
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Адміністратор надає опис джерела;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Джерело проходить перевірку;
+        note right #ffaaaa
+            <b> admin.nsrc_err1
+        end note
+    |%lightblue("TECHNOLOGY", 11)|Адміністратор|
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Адміністратор налаштовує \nфільтри для пошуку джерела;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Система додає нове джерело;
+    |%lightblue("TECHNOLOGY", 11)|Адміністратор| 
+        stop
+@enduml
+
+# Допомога адміністратора 
+
+ID: ADMIN.HELP
+
+НАЗВА:  Виклик адміністратора
+
+УЧАСНИКИ: Користувач, Адміністратор, Система
+
+ПЕРЕДУМОВИ: У користувача виникла проблема вирішення якої не може забезпечити система
+
+РЕЗУЛЬТАТ: Адміністратор надає рішення проблеми користувача
+
+ВИКЛЮЧНІ СИТУАЦІЇ:
+
+    Користувач не зміг встановити зв'язок з адміністратором
+
+@startuml
+
+    |%lightblue("TECHNOLOGY", 11)|Користувач|
+        start
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Натискає на кнопку \nдопомоги адміністратора;
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Вказує на проблему \nадміністратору;
+    |#aliceblue|Система|
+        %darken("aliceblue", 6);line:black;text:black :Система нажсилає запит адміністратору;
+    |%lightblue("TECHNOLOGY", 11)|Адміністратор|
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Адміністратор отримує запит \nвід користувача;
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Адміністратор знаходить відповідь \nна запит користувача;
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Адміністратор надсилає відповідь \nкористувачу;
+    |#aliceblue|Користувач|
+        %darken("aliceblue", 6);line:black;text:black : Отримує відповідь на свій \nзапит;
+        stop
+
+|#lightgrey|Користувач| start :Натискає на кнопку \nдопомоги адміністратора; :Вказує на проблему адміністратору; |#darkgrey|Адміністратор| :Отримує запит від користувача; :Отримує опис проблеми від \nкористувача; :Знаходить відповідь на запит \nкористувача; :Надсилає відповідь; |Користувач| :Отримує відповідь на свій \nзапит; stop
 
 @enduml
 
-**Діаграма прецедентів**
+# Надання прав користувачам
 
-</center>
+ID: ADMIN.ARIGHTS
 
+НАЗВА: Надання прав користувачам
+
+УЧАСНИКИ: Користувач, Адміністратор, Система
+
+ПЕРЕДУМОВИ: Користувач потребує додаткові права
+
+РЕЗУЛЬТАТ: Користувач отримує додаткові права
+
+ВИКЛЮЧНІ СИТУАЦІЇ:
+
+    Користувача не було знайдено в системі або користувачу уже має додаткові права.
+@startuml
+
+    |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        start
+        #TECHNOLOGY;line:black;text:black :Користувач надає запит \nна отримання додаткових прав;
+        note left #ffaaaa
+            <b> admin.arights_err1
+        end note
+    |%lightblue("TECHNOLOGY", 11)|Адміністратор|
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Адміністратор отримує запит \nна додання прав;
+        %lightblue("TECHNOLOGY", 7);line:black;text:black :Адміністратор надає додаткові \nправа користувачу;
+        note right #ffaaaa
+            <b> admin.arights_err2
+        end note
+    |%lightblue("TECHNOLOGY", 7)|Користувач|
+        #TECHNOLOGY;line:black;text:black :Користувач отримує додаткові \nправа;
+    |%lightblue("TECHNOLOGY", 11)|Адміністратор|
+        %lighten("TECHNOLOGY", 7);line:black;text:black :Адміністратор завершує взаємодію;
+    |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        stop
+@enduml
