@@ -176,9 +176,9 @@ ID: USER.HELP
         stop
 @enduml
 
-# Збереження тексту
+# Запит на пошук та аналіз медіа-контенту
 
-ID: USER.SAVE_TEXT
+ID: USER.SEARCH
 
 НАЗВА: Збереження тексту до бази даних
 
@@ -186,32 +186,32 @@ ID: USER.SAVE_TEXT
 
 ПЕРЕДУМОВИ: Користувач виконав авторизацію в системі
 
-РЕЗУЛЬТАТ: Користувач зберігає текст до бази даних системи
+РЕЗУЛЬТАТ:  Вивід результату повного аналізу шуканого медіа-контенту
 
 ВИКЛЮЧНІ СИТУАЦІЇ:
 
-    Користувач не є зареєстрованим або не ввів ніякого тексту.
+    Користувач некоректно ввів пошуковий запит або інформація за запитом не знайдена.
     
 @startuml
 
     |%lightblue("TECHNOLOGY", 7)|Користувач| 
         start
-        #TECHNOLOGY;line:black;text:black :Натискає на кнопку "Save";
+        #TECHNOLOGY;line:black;text:black :Натискає на кнопку "Search";
     |#aliceblue|Система|
-        %darken("aliceblue", 6);line:black;text:black :Отримує запит на збереження \nтексту;
+        %darken("aliceblue", 6);line:black;text:black :Cистема відкриває форму на заповнення фільтрів для пошуку інформаці;
         %darken("aliceblue", 6);line:black;text:black :Система відправляє форму заповнення;
     |%lightblue("TECHNOLOGY", 7)|Користувач|
         #TECHNOLOGY;line:black;text:black :Користувач отримує доступ \nдля заповнення форми;
-        #TECHNOLOGY;line:black;text:black :Користувач записує свій редагування у форму;
+        #TECHNOLOGY;line:black;text:black :Користувач заповнює форму пошуку інформації;
         #TECHNOLOGY;line:black;text:black :Користувач надсилає заповнену \nформу системі;
     |#aliceblue|Система|
-        %darken("aliceblue", 6);line:black;text:black :Система аналізує редагує \nтекст;
+        %darken("aliceblue", 6);line:black;text:black :истема звіряє дані з форми фільтрації з даними в БД;
         note right #ffaaaa
             <b> user.help_err1
         end note
-        %darken("aliceblue", 6);line:black;text:black :Система зберігає текст до своєї бази \nданих;
+        %darken("aliceblue", 6);line:black;text:black :Система здійснює пошук інформації;
     |%lightblue("TECHNOLOGY", 7)|Користувач| 
-        #TECHNOLOGY;line:black;text:black :Користувач отримує відредагований текст;
+        #TECHNOLOGY;line:black;text:black :Користувач отримує інформацію;
         stop
 @enduml
 
@@ -219,7 +219,7 @@ ID: USER.SAVE_TEXT
 
 # Додавання джерела інформації
 
-ID: ADMIN.NSRC
+ID: ADMIN.NEWSOURSE
 
 НАЗВА: Додавання джерела інформації
 
@@ -287,9 +287,6 @@ ID: ADMIN.HELP
     |#aliceblue|Користувач|
         %darken("aliceblue", 6);line:black;text:black : Отримує відповідь на свій \nзапит;
         stop
-
-|#lightgrey|Користувач| start :Натискає на кнопку \nдопомоги адміністратора; :Вказує на проблему адміністратору; |#darkgrey|Адміністратор| :Отримує запит від користувача; :Отримує опис проблеми від \nкористувача; :Знаходить відповідь на запит \nкористувача; :Надсилає відповідь; |Користувач| :Отримує відповідь на свій \nзапит; stop
-
 @enduml
 
 # Надання прав користувачам
@@ -326,5 +323,39 @@ ID: ADMIN.ARIGHTS
     |%lightblue("TECHNOLOGY", 11)|Адміністратор|
         %lighten("TECHNOLOGY", 7);line:black;text:black :Адміністратор завершує взаємодію;
     |%lightblue("TECHNOLOGY", 7)|Користувач| 
+        stop
+@enduml
+
+# Отримання статистики
+
+ID: ADMIN.STAT
+
+НАЗВА: Отримання статистики користувачів за проміжок часу
+
+УЧАСНИКИ: Адміністратор, Система
+
+ПЕРЕДУМОВИ: Адміністратор має право доступу до статистики
+
+РЕЗУЛЬТАТ: Адміністратор отримує статистичні дані
+
+ВИКЛЮЧНІ СИТУАЦІЇ:
+
+Система не змогла зібрати статистику за певний проміжок часу (код помилки: admin.stat_err1)
+@startuml
+
+    |%lightblue("black", 11)|Адміністратор|
+        start
+        %lightblue("black", 7);line:black;text:black :Адміністратор обирає проміжок \nчасу для збору даних;
+        %lightblue("black", 7);line:black;text:black :Адміністратор робить запит \nна статистику на обраний час;
+    |#aliceblue|Система|
+        %lightblue("aliceblue", 6);line:black;text:black :Система отримує запит;
+        %lightblue("aliceblue", 6);line:black;text:black :Система шукає дані за \nобраний проміжок часу;
+        note right #ffaaaa
+            <b> admin.stat_err1
+        end note
+        %darken("aliceblue", 6);line:black;text:black :Система надає дані;
+    |%lightblue("pink", 11)|Адміністратор|
+        %lightblue("pink", 7);line:black;text:black :Адміністратор отримує дані \nу відповідь на запит;
+        %lightblue("pink", 7);line:black;text:black :Адміністратор проводить аналіз \nданих;
         stop
 @enduml
